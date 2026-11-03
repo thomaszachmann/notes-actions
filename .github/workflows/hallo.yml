@@ -19,3 +19,9 @@ jobs:
           GRUSS: ${{ inputs.gruss }}
           WER: ${{ github.actor }}
         run: echo "$GRUSS, $WER! Commit ${GITHUB_SHA::7} auf $GITHUB_REF_NAME"
+      - name: Laut
+        if: inputs.stufe == 'laut'
+        run: echo "DAS WAR LAUT"
+      - name: Nur bei Fehler
+        if: failure()
+        run: echo "Ein Step davor ist gescheitert"
