@@ -39,6 +39,10 @@ jobs:
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: notes-api-linux-amd64
+      - name: Artefakte
+        env:
+          ARTEFAKTE: ${{ needs.build.outputs.artefakte }}
+        run: echo "Gebaut: $ARTEFAKTE"
       - name: Starten und prüfen
         run: |
           chmod +x notes-api-linux-amd64
