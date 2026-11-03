@@ -7,6 +7,9 @@ inputs:
   versuche:
     description: Wie oft fragen, einmal pro Sekunde
     default: "10"
+  erwartet:
+    description: Erwarteter Antworttext, leer = egal
+    default: ""
 outputs:
   antwort:
     description: Text der Antwort
