@@ -90,3 +90,6 @@ jobs:
           subject-name: ${{ env.IMAGE }}
           subject-digest: ${{ needs.image.outputs.digest }}
           push-to-registry: true
+      - uses: sigstore/cosign-installer@v4.1.2
+      - name: Signieren
+        run: cosign sign --yes "$REF"
