@@ -8,3 +8,6 @@ linters:
     rules:
       - linters: [staticcheck]
         text: "ST1005"
+formatters:
+  enable:
+    - gofmt
