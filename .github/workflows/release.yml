@@ -43,6 +43,7 @@ jobs:
       - name: Release anlegen
         env:
           GH_TOKEN: ${{ github.token }}
+          VORAB: ${{ contains(github.ref_name, '-') }}
         run: >-
           gh release create "$GITHUB_REF_NAME" notes-api-linux-* SHA256SUMS
-          --repo "$GITHUB_REPOSITORY" --generate-notes
+          --repo "$GITHUB_REPOSITORY" --generate-notes --prerelease="$VORAB"
