@@ -5,7 +5,7 @@ on: workflow_dispatch
 
 jobs:
   wo:
-    runs-on: [self-hosted, lab]
+    runs-on: arc-notes
     steps:
       - name: Wo bin ich?
         run: |
@@ -13,5 +13,6 @@ jobs:
           echo "Arbeitsordner: $PWD"
       - name: Spuren hinterlassen
         run: |
+          mkdir -p ~/gha-lab
           echo "Lauf $GITHUB_RUN_ID" >> ~/gha-lab/laeufe.txt
           cat ~/gha-lab/laeufe.txt
