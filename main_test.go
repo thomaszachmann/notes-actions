@@ -63,7 +63,7 @@ func TestPostNotesRequiresKey(t *testing.T) {
 	}{
 		{"", http.StatusUnauthorized},
 		{"falsch", http.StatusUnauthorized},
-		{labKey, http.StatusAccepted},
+		{labKey, http.StatusCreated},
 	}
 	for _, c := range cases {
 		req := httptest.NewRequest(http.MethodPost, "/notes",
