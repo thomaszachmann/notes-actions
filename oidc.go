@@ -97,7 +97,7 @@ func (o *oidcConfig) verify(ctx context.Context, header string) (claims, error) 
 		return c, fmt.Errorf("Header: %w", err)
 	}
 	if head.Alg != "RS256" {
-		return c, fmt.Errorf("Algorithmus %q nicht erlaubt", head.Alg)
+		return c, fmt.Errorf("Signaturverfahren %q nicht erlaubt", head.Alg)
 	}
 	key, err := o.key(ctx, head.Kid)
 	if err != nil {
