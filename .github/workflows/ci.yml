@@ -16,8 +16,6 @@ jobs:
       - uses: actions/setup-go@v7
         with:
           go-version-file: go.mod
-      - name: Architektur
-        run: go env GOARCH
       - name: Statische Prüfung
         run: go vet ./...
       - run: go test ./...
@@ -27,3 +25,28 @@ jobs:
           VON: ${{ github.head_ref }}
           NACH: ${{ github.base_ref }}
         run: echo "PR $VON -> $NACH" | tee -a "$GITHUB_STEP_SUMMARY"
+
+  build:
+    needs: test
+    strategy:
+      matrix:
+        goarch: [amd64, arm64]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+      - name: Bauen
+        env:
+          CGO_ENABLED: "0"
+          GOOS: linux
+          GOARCH: ${{ matrix.goarch }}
+        run: >-
+          go build -trimpath -ldflags "-s -w -X main.version=${GITHUB_SHA::7}"
+          -o notes-api-linux-$GOARCH .
+      - uses: actions/upload-artifact@v7
+        with:
+          name: notes-api-linux-${{ matrix.goarch }}
+          path: notes-api-linux-${{ matrix.goarch }}
+          retention-days: 7
