@@ -88,7 +88,7 @@ func TestMetrics(t *testing.T) {
 	h.ServeHTTP(rec, httptest.NewRequest(http.MethodGet, "/metrics", nil))
 	body := rec.Body.String()
 	for _, want := range []string{
-		`notes_build_info{store="memory",version="dev"} 1`,
+		`notes_build_info{store="memory",version="0.5.0-dev"} 1`,
 		`notes_http_requests_total{code="201",method="POST",path="/notes"} 1`,
 		`notes_http_requests_total{code="404",method="GET",path="other"} 1`,
 		`notes_created_total 1`,
