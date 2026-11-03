@@ -1,0 +1,9 @@
+name: wk
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  r1:
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo "Status: alles gut"
