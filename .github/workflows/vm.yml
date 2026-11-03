@@ -1,0 +1,15 @@
+name: vm
+on: workflow_dispatch
+
+jobs:
+  wo:
+    runs-on: [self-hosted, lab]
+    steps:
+      - name: Wo bin ich?
+        run: |
+          echo "Host: $(hostname), Benutzer: $(whoami)"
+          echo "Arbeitsordner: $PWD"
+      - name: Spuren hinterlassen
+        run: |
+          echo "Lauf $GITHUB_RUN_ID" >> ~/gha-lab/laeufe.txt
+          cat ~/gha-lab/laeufe.txt
