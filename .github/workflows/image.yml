@@ -76,3 +76,16 @@ jobs:
           severity: HIGH,CRITICAL
           ignore-unfixed: true
           exit-code: "1"
+      - name: SBOM
+        uses: anchore/sbom-action@v0.24.3
+        with:
+          image: ${{ env.IMAGE }}@${{ env.DIGEST }}
+          format: spdx-json
+          output-file: sbom.spdx.json
+      - name: SBOM-Attestation
+        uses: actions/attest@v4
+        with:
+          subject-name: ${{ env.IMAGE }}
+          subject-digest: ${{ env.DIGEST }}
+          sbom-path: sbom.spdx.json
+          push-to-registry: true
