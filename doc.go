@@ -1,2 +1,2 @@
-// Package main is notes-api. Notes are recieved via POST /notes.
+// Package main is notes-api. Notes are received via POST /notes.
 package main
