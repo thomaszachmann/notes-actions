@@ -6,4 +6,4 @@ jobs:
   r1:
     runs-on: ubuntu-24.04
     steps:
-      - run: echo "Status: alles gut"
+      - run: 'echo "Status: alles gut"'
