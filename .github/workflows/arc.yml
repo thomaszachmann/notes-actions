@@ -1,0 +1,15 @@
+name: arc
+on: workflow_dispatch
+
+permissions:
+  contents: read
+
+jobs:
+  wo:
+    runs-on: arc-notes
+    steps:
+      - name: Wo bin ich?
+        run: |
+          echo "Host: $(hostname)"
+          echo "Spur: $(cat /tmp/spur 2>/dev/null || echo keine)"
+          echo "$GITHUB_RUN_ID" > /tmp/spur
