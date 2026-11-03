@@ -1,4 +1,6 @@
 name: hallo
+permissions:
+  contents: read
 on:
   workflow_dispatch:
     inputs:
