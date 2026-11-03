@@ -9,7 +9,7 @@ jobs:
       - id: v
         run: echo "version=1.2.3" >> "$GITHUB_OUTPUT"
       - env:
-          VERSION: ${{ steps.v.outputs.versoin }}
+          VERSION: ${{ steps.v.outputs.version }}
         run: |
           echo "Version ist '$VERSION'"
           test -n "$VERSION"
