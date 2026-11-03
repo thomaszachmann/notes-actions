@@ -83,6 +83,7 @@ jobs:
           image: ${{ env.IMAGE }}@${{ env.DIGEST }}
           format: spdx-json
           output-file: sbom.spdx.json
+          upload-release-assets: false
       - name: SBOM-Attestation
         uses: actions/attest@v4
         with:
