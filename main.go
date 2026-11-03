@@ -36,7 +36,7 @@ import (
 	_ "github.com/jackc/pgx/v5/stdlib" // Treiber "pgx" für database/sql
 )
 
-var version = "dev"
+var version = "0.5.0-dev"
 
 // readSecret liefert den Wert aus der Datei in <name>_FILE (bevorzugt) oder aus
 // <name>. source ist "file", "env" oder "" (nicht gesetzt).
