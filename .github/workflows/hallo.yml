@@ -5,23 +5,24 @@ on:
       gruss:
         description: Womit begrüßen?
         default: Hallo
-      stufe:
-        type: choice
-        options: [leise, laut]
-        default: leise
 
 jobs:
   info:
     runs-on: ubuntu-24.04
+    outputs:
+      kurz: ${{ steps.sha.outputs.kurz }}
     steps:
-      - name: Begrüßen
-        env:
-          GRUSS: ${{ inputs.gruss }}
-          WER: ${{ github.actor }}
-        run: echo "$GRUSS, $WER! Commit ${GITHUB_SHA::7} auf $GITHUB_REF_NAME"
-      - name: Laut
-        if: inputs.stufe == 'laut'
-        run: echo "DAS WAR LAUT"
-      - name: Nur bei Fehler
-        if: failure()
-        run: echo "Ein Step davor ist gescheitert"
+      - name: Kurzen Commit ermitteln
+        id: sha
+        run: echo "kurz=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+      - name: Im selben Job lesen
+        run: echo "Step-Output ${{ steps.sha.outputs.kurz }}"
+
+  zeigen:
+    needs: info
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Im nächsten Job lesen
+        run: |
+          echo "Job-Output ${{ needs.info.outputs.kurz }}"
+          echo "### Gebaut aus ${{ needs.info.outputs.kurz }}" >> "$GITHUB_STEP_SUMMARY"
