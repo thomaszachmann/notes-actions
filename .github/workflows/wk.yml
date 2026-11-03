@@ -3,13 +3,9 @@ on: workflow_dispatch
 permissions:
   contents: read
 jobs:
-  r3:
+  r4:
     runs-on: ubuntu-24.04
     steps:
-      - id: v
-        run: echo "version=1.2.3" >> "$GITHUB_OUTPUT"
       - env:
-          VERSION: ${{ steps.v.outputs.version }}
-        run: |
-          echo "Version ist '$VERSION'"
-          test -n "$VERSION"
+          GH_TOKEN: ${{ github.token }}
+        run: gh label create "wk-$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY"
