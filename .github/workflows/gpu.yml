@@ -1,0 +1,8 @@
+name: gpu
+on: workflow_dispatch
+
+jobs:
+  rechnen:
+    runs-on: [self-hosted, gpu]
+    steps:
+      - run: nvidia-smi
