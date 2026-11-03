@@ -16,9 +16,3 @@ jobs:
       - name: Statische Prüfung
         run: go vet ./...
       - run: go test ./...
-      - name: PR-Info
-        if: github.event_name == 'pull_request'
-        env:
-          VON: ${{ github.head_ref }}
-          NACH: ${{ github.base_ref }}
-        run: echo "PR $VON -> $NACH" | tee -a "$GITHUB_STEP_SUMMARY"
