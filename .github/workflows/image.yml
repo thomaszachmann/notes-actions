@@ -61,46 +61,13 @@ jobs:
       packages: write
       id-token: write
       attestations: write
-      security-events: write
     env:
-      REF: ghcr.io/${{ github.repository_owner }}/notes-api@${{ needs.image.outputs.digest }}
+      DIGEST: ${{ needs.image.outputs.digest }}
     steps:
       - name: Schwachstellen
         uses: aquasecurity/trivy-action@v0.36.0
         with:
-          image-ref: ${{ env.REF }}
+          image-ref: ${{ env.IMAGE }}@${{ env.DIGEST }}
           severity: HIGH,CRITICAL
           ignore-unfixed: true
           exit-code: "1"
-      - name: SBOM
-        uses: anchore/sbom-action@v0.24.3
-        with:
-          image: ${{ env.REF }}
-          format: spdx-json
-          output-file: sbom.spdx.json
-      - name: SBOM-Attestation
-        uses: actions/attest-sbom@v4
-        with:
-          subject-name: ${{ env.IMAGE }}
-          subject-digest: ${{ needs.image.outputs.digest }}
-          sbom-path: sbom.spdx.json
-          push-to-registry: true
-      - name: Provenance
-        uses: actions/attest-build-provenance@v4
-        with:
-          subject-name: ${{ env.IMAGE }}
-          subject-digest: ${{ needs.image.outputs.digest }}
-          push-to-registry: true
-      - uses: sigstore/cosign-installer@v4.1.2
-      - name: Signieren
-        run: cosign sign --yes "$REF"
-      - name: Schwachstellen als SARIF
-        uses: aquasecurity/trivy-action@v0.36.0
-        with:
-          image-ref: ${{ env.REF }}
-          format: sarif
-          output: trivy.sarif
-          exit-code: "0"
-      - uses: github/codeql-action/upload-sarif@v4
-        with:
-          sarif_file: trivy.sarif
