@@ -1,0 +1,15 @@
+name: healthcheck
+description: Fragt eine URL ab, bis sie mit 2xx antwortet
+inputs:
+  url:
+    description: Adresse, z. B. http://localhost:8090/healthz
+    required: true
+  versuche:
+    description: Wie oft fragen, einmal pro Sekunde
+    default: "10"
+outputs:
+  antwort:
+    description: Text der Antwort
+runs:
+  using: node24
+  main: index.js
