@@ -84,3 +84,9 @@ jobs:
           subject-digest: ${{ needs.image.outputs.digest }}
           sbom-path: sbom.spdx.json
           push-to-registry: true
+      - name: Provenance
+        uses: actions/attest-build-provenance@v4
+        with:
+          subject-name: ${{ env.IMAGE }}
+          subject-digest: ${{ needs.image.outputs.digest }}
+          push-to-registry: true
