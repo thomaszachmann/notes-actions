@@ -11,5 +11,5 @@ jobs:
   r2:
     runs-on: ubuntu-24.04
     steps:
-      - if: ${{ inputs.laut }} == 'true'
+      - if: inputs.laut
         run: echo "LAUT"
