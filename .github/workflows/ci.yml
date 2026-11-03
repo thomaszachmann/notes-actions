@@ -68,3 +68,14 @@ jobs:
           NOTES_API_KEY=lab-api-key-123 PORT=8090 ./notes-api-linux-amd64 &
           sleep 1
           curl -fsS localhost:8090/healthz
+
+  lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+      - uses: golangci/golangci-lint-action@v9
+        with:
+          version: v2.15.0
