@@ -3,10 +3,14 @@ on: workflow_dispatch
 permissions:
   contents: read
 jobs:
-  r5:
+  r6:
+    strategy:
+      matrix:
+        teil: [a, b]
     runs-on: ubuntu-24.04
     steps:
-      - shell: bash
-        run: |
-          false | tee ergebnis.txt
-          echo "Weiter nach dem Fehler"
+      - run: echo "Teil ${{ matrix.teil }}" > teil.txt
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: teile
+          path: teil.txt
