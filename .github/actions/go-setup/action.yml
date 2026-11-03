@@ -1,0 +1,22 @@
+name: go-setup
+description: Go aus go.mod, optional ohne Cache
+inputs:
+  cache:
+    description: Go-Cache nutzen
+    default: "true"
+outputs:
+  go-version:
+    description: Installierte Go-Version
+    value: ${{ steps.go.outputs.go-version }}
+runs:
+  using: composite
+  steps:
+    - id: go
+      uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+      with:
+        go-version-file: go.mod
+        cache: ${{ inputs.cache }}
+    - shell: bash
+      env:
+        GO_VERSION: ${{ steps.go.outputs.go-version }}
+      run: echo "Go $GO_VERSION bereit"
