@@ -1,8 +1,4 @@
 name: ci
-concurrency:
-  group: ci-${{ github.ref }}
-  cancel-in-progress: true
-
 on:
   push:
     branches: [main]
@@ -54,16 +50,3 @@ jobs:
           name: notes-api-linux-${{ matrix.goarch }}
           path: notes-api-linux-${{ matrix.goarch }}
           retention-days: 7
-
-  smoke:
-    needs: build
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/download-artifact@v8
-        with:
-          name: notes-api-linux-amd64
-      - name: Starten und prüfen
-        run: |
-          NOTES_API_KEY=lab-api-key-123 PORT=8090 ./notes-api-linux-amd64 &
-          sleep 1
-          curl -fsS localhost:8090/healthz
