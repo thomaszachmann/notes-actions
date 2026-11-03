@@ -26,6 +26,10 @@ jobs:
         run: kubectl -n notes set image deployment/notes-api notes-api="$IMAGE"
       - name: Rollout abwarten
         run: kubectl -n notes rollout status deployment/notes-api --timeout=60s
+      - name: Antwortet die neue Version?
+        uses: thomaszachmann/notes-actions/.github/actions/healthcheck@v0.6.0-rc.3
+        with:
+          url: http://localhost:30081/version
       - name: Zurückrollen
         if: failure()
         run: kubectl -n notes rollout undo deployment/notes-api
