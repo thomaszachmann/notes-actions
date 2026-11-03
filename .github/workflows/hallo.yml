@@ -1,0 +1,21 @@
+name: hallo
+on:
+  workflow_dispatch:
+    inputs:
+      gruss:
+        description: Womit begrüßen?
+        default: Hallo
+      stufe:
+        type: choice
+        options: [leise, laut]
+        default: leise
+
+jobs:
+  info:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Begrüßen
+        env:
+          GRUSS: ${{ inputs.gruss }}
+          WER: ${{ github.actor }}
+        run: echo "$GRUSS, $WER! Commit ${GITHUB_SHA::7} auf $GITHUB_REF_NAME"
