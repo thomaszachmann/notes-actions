@@ -10,4 +10,6 @@ jobs:
   hallo:
     runs-on: ubuntu-24.04
     steps:
-      - run: echo "Neues Issue: ${{ github.event.issue.title }}"
+      - env:
+          TITEL: ${{ github.event.issue.title }}
+        run: echo "Neues Issue: $TITEL"
