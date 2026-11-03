@@ -1,27 +1,31 @@
 name: deploy
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Image-Tag, z. B. 0.5.1
+        required: true
 
 permissions:
   contents: read
 
+concurrency:
+  group: deploy-produktion
+  cancel-in-progress: false
+
 jobs:
   deploy:
-    runs-on: ubuntu-24.04
-    environment: produktion
-    permissions:
-      contents: read
-      id-token: write
+    runs-on: [self-hosted, lab]
+    environment:
+      name: produktion
+      url: http://localhost:30081/version
+    env:
+      IMAGE: ghcr.io/${{ github.repository_owner }}/notes-api:${{ inputs.version }}
     steps:
-      - name: Secret nutzen
-        env:
-          DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-        run: |
-          echo "Token: $DEPLOY_TOKEN"
-          echo "Länge: ${#DEPLOY_TOKEN}"
-      - name: OIDC-Token
-        run: >-
-          curl -fsS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN"
-          "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=lab"
-          | jq -r .value
-          | jq -R 'split(".")[1] | @base64d | fromjson
-          | {sub, aud, ref, environment, job_workflow_ref}'
+      - name: Version setzen
+        run: kubectl -n notes set image deployment/notes-api notes-api="$IMAGE"
+      - name: Rollout abwarten
+        run: kubectl -n notes rollout status deployment/notes-api --timeout=60s
+      - name: Zurückrollen
+        if: failure()
+        run: kubectl -n notes rollout undo deployment/notes-api
