@@ -16,13 +16,17 @@ jobs:
         id: sha
         run: echo "kurz=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
       - name: Im selben Job lesen
-        run: echo "Step-Output ${{ steps.sha.outputs.kurz }}"
+        env:
+          KURZ: ${{ steps.sha.outputs.kurz }}
+        run: echo "Step-Output $KURZ"
 
   zeigen:
     needs: info
     runs-on: ubuntu-24.04
     steps:
       - name: Im nächsten Job lesen
+        env:
+          KURZ: ${{ needs.info.outputs.kurz }}
         run: |
-          echo "Job-Output ${{ needs.info.outputs.kurz }}"
-          echo "### Gebaut aus ${{ needs.info.outputs.kurz }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "Job-Output $KURZ"
+          echo "### Gebaut aus $KURZ" >> "$GITHUB_STEP_SUMMARY"
