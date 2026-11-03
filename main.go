@@ -306,4 +306,5 @@ func authorized(w http.ResponseWriter, r *http.Request, apiKey string, oidc *oid
 	}
 	return true
 }
+
 // Notes are received via POST /notes.
