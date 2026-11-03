@@ -6,6 +6,7 @@ jobs:
   r5:
     runs-on: ubuntu-24.04
     steps:
-      - run: |
+      - shell: bash
+        run: |
           false | tee ergebnis.txt
           echo "Weiter nach dem Fehler"
