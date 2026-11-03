@@ -1,0 +1,13 @@
+name: issue
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  hallo:
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo "Neues Issue: ${{ github.event.issue.title }}"
