@@ -52,3 +52,17 @@ jobs:
         run: >-
           gh release create "$GITHUB_REF_NAME" notes-api-linux-* SHA256SUMS
           --repo "$GITHUB_REPOSITORY" --generate-notes --prerelease="$VORAB"
+
+  deploy:
+    needs: release
+    if: ${{ !contains(github.ref_name, '-') }}
+    runs-on: ubuntu-24.04
+    permissions:
+      actions: write
+    steps:
+      - name: Deployment anstoßen
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh workflow run deploy.yml --repo "$GITHUB_REPOSITORY"
+          -f version="${GITHUB_REF_NAME#v}"
