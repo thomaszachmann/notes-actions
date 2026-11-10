@@ -27,7 +27,7 @@ jobs:
       - name: Rollout abwarten
         run: kubectl -n notes rollout status deployment/notes-api --timeout=60s
       - name: Antwortet die neue Version?
-        uses: thomaszachmann/notes-actions/.github/actions/healthcheck@v0.6.0-rc.4
+        uses: thomaszachmann/notes-actions/.github/actions/healthcheck@v0.7.1
         with:
           url: http://localhost:30081/version
           erwartet: ${{ inputs.version }}

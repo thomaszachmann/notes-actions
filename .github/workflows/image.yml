@@ -97,7 +97,7 @@ jobs:
           subject-name: ${{ env.IMAGE }}
           subject-digest: ${{ env.DIGEST }}
           push-to-registry: true
-      - uses: sigstore/cosign-installer@v4.1.2
+      - uses: sigstore/cosign-installer@v4.1.3
       - name: Signieren
         run: cosign sign --yes "$IMAGE@$DIGEST"
       - name: Schwachstellen als SARIF
