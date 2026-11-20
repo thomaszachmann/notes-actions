@@ -1,2 +1,2 @@
 # notes-actions
-Übungsrepository zu GitHub Actions zum Anfassen.
+Practice repository for *GitHub Actions hands-on* (German: *GitHub Actions zum Anfassen*).
